@@ -90,6 +90,10 @@ namespace SaleManagementSystem
         {
             CC.Content = new Dashboard();
         }
+
+        private void btn_Products_Click(object sender, RoutedEventArgs e)
+        {
+        }
     }
     class Width1
     {

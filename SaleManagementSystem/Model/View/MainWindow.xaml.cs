@@ -31,6 +31,7 @@ namespace SaleManagementSystem
                 GridLength1 = 150,
             };
             this.DataContext = _width;
+            CC.Content = new Dashboard();
         }
         private bool menuExpand = true;
         private void btnMinimize_Click(object sender, RoutedEventArgs e)

@@ -1,0 +1,666 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="SaleCallCenterModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Tbl_Customers">
+          <Key>
+            <PropertyRef Name="customer_id" />
+          </Key>
+          <Property Name="customer_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="phone" Type="nvarchar" MaxLength="15" />
+          <Property Name="email" Type="nvarchar" MaxLength="100" />
+          <Property Name="address" Type="nvarchar" MaxLength="255" />
+          <Property Name="needs" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="Tbl_OrderDetails">
+          <Key>
+            <PropertyRef Name="detail_id" />
+          </Key>
+          <Property Name="detail_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="order_id" Type="int" />
+          <Property Name="product_id" Type="int" />
+          <Property Name="quantity" Type="int" Nullable="false" />
+          <Property Name="unit_price" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Tbl_Orders">
+          <Key>
+            <PropertyRef Name="order_id" />
+          </Key>
+          <Property Name="order_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="customer_id" Type="int" />
+          <Property Name="created_by" Type="int" />
+          <Property Name="status_id" Type="int" />
+          <Property Name="created_date" Type="datetime" />
+          <Property Name="total_amount" Type="decimal" Precision="18" Scale="2" />
+        </EntityType>
+        <EntityType Name="Tbl_OrderStatus">
+          <Key>
+            <PropertyRef Name="status_id" />
+          </Key>
+          <Property Name="status_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="status_name" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Tbl_ProductCategories">
+          <Key>
+            <PropertyRef Name="category_id" />
+          </Key>
+          <Property Name="category_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="category_name" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Tbl_Products">
+          <Key>
+            <PropertyRef Name="product_id" />
+          </Key>
+          <Property Name="product_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="product_name" Type="nvarchar" MaxLength="100" />
+          <Property Name="category_id" Type="int" />
+          <Property Name="stock" Type="int" />
+          <Property Name="unit_price" Type="decimal" Precision="18" Scale="2" />
+        </EntityType>
+        <EntityType Name="Tbl_Statistics">
+          <Key>
+            <PropertyRef Name="statistic_id" />
+          </Key>
+          <Property Name="statistic_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="type_id" Type="int" />
+          <Property Name="statistic_target" Type="nvarchar" MaxLength="100" />
+          <Property Name="target_id" Type="int" />
+          <Property Name="time_period" Type="nvarchar" MaxLength="20" />
+          <Property Name="start_date" Type="date" />
+          <Property Name="end_date" Type="date" />
+          <Property Name="metric_name" Type="nvarchar" MaxLength="100" />
+          <Property Name="value" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="last_updated" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Tbl_StatisticTypes">
+          <Key>
+            <PropertyRef Name="type_id" />
+          </Key>
+          <Property Name="type_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="type_name" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Tbl_UserRoles">
+          <Key>
+            <PropertyRef Name="role_id" />
+          </Key>
+          <Property Name="role_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="role_name" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Tbl_Users">
+          <Key>
+            <PropertyRef Name="user_id" />
+          </Key>
+          <Property Name="user_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="username" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="password" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="role_id" Type="int" />
+          <Property Name="status" Type="int" />
+        </EntityType>
+        <Association Name="fk_order_details_order">
+          <End Role="Tbl_Orders" Type="Self.Tbl_Orders" Multiplicity="0..1" />
+          <End Role="Tbl_OrderDetails" Type="Self.Tbl_OrderDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_Orders">
+              <PropertyRef Name="order_id" />
+            </Principal>
+            <Dependent Role="Tbl_OrderDetails">
+              <PropertyRef Name="order_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_order_details_product">
+          <End Role="Tbl_Products" Type="Self.Tbl_Products" Multiplicity="0..1" />
+          <End Role="Tbl_OrderDetails" Type="Self.Tbl_OrderDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_Products">
+              <PropertyRef Name="product_id" />
+            </Principal>
+            <Dependent Role="Tbl_OrderDetails">
+              <PropertyRef Name="product_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_orders_customer">
+          <End Role="Tbl_Customers" Type="Self.Tbl_Customers" Multiplicity="0..1" />
+          <End Role="Tbl_Orders" Type="Self.Tbl_Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_Customers">
+              <PropertyRef Name="customer_id" />
+            </Principal>
+            <Dependent Role="Tbl_Orders">
+              <PropertyRef Name="customer_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_orders_status">
+          <End Role="Tbl_OrderStatus" Type="Self.Tbl_OrderStatus" Multiplicity="0..1" />
+          <End Role="Tbl_Orders" Type="Self.Tbl_Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_OrderStatus">
+              <PropertyRef Name="status_id" />
+            </Principal>
+            <Dependent Role="Tbl_Orders">
+              <PropertyRef Name="status_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_orders_user">
+          <End Role="Tbl_Users" Type="Self.Tbl_Users" Multiplicity="0..1" />
+          <End Role="Tbl_Orders" Type="Self.Tbl_Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_Users">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="Tbl_Orders">
+              <PropertyRef Name="created_by" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_products_category">
+          <End Role="Tbl_ProductCategories" Type="Self.Tbl_ProductCategories" Multiplicity="0..1" />
+          <End Role="Tbl_Products" Type="Self.Tbl_Products" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_ProductCategories">
+              <PropertyRef Name="category_id" />
+            </Principal>
+            <Dependent Role="Tbl_Products">
+              <PropertyRef Name="category_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_statistics_type">
+          <End Role="Tbl_StatisticTypes" Type="Self.Tbl_StatisticTypes" Multiplicity="0..1" />
+          <End Role="Tbl_Statistics" Type="Self.Tbl_Statistics" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_StatisticTypes">
+              <PropertyRef Name="type_id" />
+            </Principal>
+            <Dependent Role="Tbl_Statistics">
+              <PropertyRef Name="type_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_users_role">
+          <End Role="Tbl_UserRoles" Type="Self.Tbl_UserRoles" Multiplicity="0..1" />
+          <End Role="Tbl_Users" Type="Self.Tbl_Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_UserRoles">
+              <PropertyRef Name="role_id" />
+            </Principal>
+            <Dependent Role="Tbl_Users">
+              <PropertyRef Name="role_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SaleCallCenterModelStoreContainer">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_Customers" EntityType="Self.Tbl_Customers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_OrderDetails" EntityType="Self.Tbl_OrderDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_Orders" EntityType="Self.Tbl_Orders" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_OrderStatus" EntityType="Self.Tbl_OrderStatus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_ProductCategories" EntityType="Self.Tbl_ProductCategories" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_Products" EntityType="Self.Tbl_Products" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_Statistics" EntityType="Self.Tbl_Statistics" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_StatisticTypes" EntityType="Self.Tbl_StatisticTypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_UserRoles" EntityType="Self.Tbl_UserRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_Users" EntityType="Self.Tbl_Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="fk_order_details_order" Association="Self.fk_order_details_order">
+            <End Role="Tbl_Orders" EntitySet="Tbl_Orders" />
+            <End Role="Tbl_OrderDetails" EntitySet="Tbl_OrderDetails" />
+          </AssociationSet>
+          <AssociationSet Name="fk_order_details_product" Association="Self.fk_order_details_product">
+            <End Role="Tbl_Products" EntitySet="Tbl_Products" />
+            <End Role="Tbl_OrderDetails" EntitySet="Tbl_OrderDetails" />
+          </AssociationSet>
+          <AssociationSet Name="fk_orders_customer" Association="Self.fk_orders_customer">
+            <End Role="Tbl_Customers" EntitySet="Tbl_Customers" />
+            <End Role="Tbl_Orders" EntitySet="Tbl_Orders" />
+          </AssociationSet>
+          <AssociationSet Name="fk_orders_status" Association="Self.fk_orders_status">
+            <End Role="Tbl_OrderStatus" EntitySet="Tbl_OrderStatus" />
+            <End Role="Tbl_Orders" EntitySet="Tbl_Orders" />
+          </AssociationSet>
+          <AssociationSet Name="fk_orders_user" Association="Self.fk_orders_user">
+            <End Role="Tbl_Users" EntitySet="Tbl_Users" />
+            <End Role="Tbl_Orders" EntitySet="Tbl_Orders" />
+          </AssociationSet>
+          <AssociationSet Name="fk_products_category" Association="Self.fk_products_category">
+            <End Role="Tbl_ProductCategories" EntitySet="Tbl_ProductCategories" />
+            <End Role="Tbl_Products" EntitySet="Tbl_Products" />
+          </AssociationSet>
+          <AssociationSet Name="fk_statistics_type" Association="Self.fk_statistics_type">
+            <End Role="Tbl_StatisticTypes" EntitySet="Tbl_StatisticTypes" />
+            <End Role="Tbl_Statistics" EntitySet="Tbl_Statistics" />
+          </AssociationSet>
+          <AssociationSet Name="fk_users_role" Association="Self.fk_users_role">
+            <End Role="Tbl_UserRoles" EntitySet="Tbl_UserRoles" />
+            <End Role="Tbl_Users" EntitySet="Tbl_Users" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SaleCallCenterModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Tbl_Customers">
+          <Key>
+            <PropertyRef Name="customer_id" />
+          </Key>
+          <Property Name="customer_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="phone" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="address" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="needs" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Tbl_Orders" Relationship="Self.fk_orders_customer" FromRole="Tbl_Customers" ToRole="Tbl_Orders" />
+        </EntityType>
+        <EntityType Name="Tbl_OrderDetails">
+          <Key>
+            <PropertyRef Name="detail_id" />
+          </Key>
+          <Property Name="detail_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="order_id" Type="Int32" />
+          <Property Name="product_id" Type="Int32" />
+          <Property Name="quantity" Type="Int32" Nullable="false" />
+          <Property Name="unit_price" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <NavigationProperty Name="Tbl_Orders" Relationship="Self.fk_order_details_order" FromRole="Tbl_OrderDetails" ToRole="Tbl_Orders" />
+          <NavigationProperty Name="Tbl_Products" Relationship="Self.fk_order_details_product" FromRole="Tbl_OrderDetails" ToRole="Tbl_Products" />
+        </EntityType>
+        <EntityType Name="Tbl_Orders">
+          <Key>
+            <PropertyRef Name="order_id" />
+          </Key>
+          <Property Name="order_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="customer_id" Type="Int32" />
+          <Property Name="created_by" Type="Int32" />
+          <Property Name="status_id" Type="Int32" />
+          <Property Name="created_date" Type="DateTime" Precision="3" />
+          <Property Name="total_amount" Type="Decimal" Precision="18" Scale="2" />
+          <NavigationProperty Name="Tbl_Customers" Relationship="Self.fk_orders_customer" FromRole="Tbl_Orders" ToRole="Tbl_Customers" />
+          <NavigationProperty Name="Tbl_OrderDetails" Relationship="Self.fk_order_details_order" FromRole="Tbl_Orders" ToRole="Tbl_OrderDetails" />
+          <NavigationProperty Name="Tbl_OrderStatus" Relationship="Self.fk_orders_status" FromRole="Tbl_Orders" ToRole="Tbl_OrderStatus" />
+          <NavigationProperty Name="Tbl_Users" Relationship="Self.fk_orders_user" FromRole="Tbl_Orders" ToRole="Tbl_Users" />
+        </EntityType>
+        <EntityType Name="Tbl_OrderStatus">
+          <Key>
+            <PropertyRef Name="status_id" />
+          </Key>
+          <Property Name="status_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="status_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Tbl_Orders" Relationship="Self.fk_orders_status" FromRole="Tbl_OrderStatus" ToRole="Tbl_Orders" />
+        </EntityType>
+        <EntityType Name="Tbl_ProductCategories">
+          <Key>
+            <PropertyRef Name="category_id" />
+          </Key>
+          <Property Name="category_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="category_name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Tbl_Products" Relationship="Self.fk_products_category" FromRole="Tbl_ProductCategories" ToRole="Tbl_Products" />
+        </EntityType>
+        <EntityType Name="Tbl_Products">
+          <Key>
+            <PropertyRef Name="product_id" />
+          </Key>
+          <Property Name="product_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="product_name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="category_id" Type="Int32" />
+          <Property Name="stock" Type="Int32" />
+          <Property Name="unit_price" Type="Decimal" Precision="18" Scale="2" />
+          <NavigationProperty Name="Tbl_OrderDetails" Relationship="Self.fk_order_details_product" FromRole="Tbl_Products" ToRole="Tbl_OrderDetails" />
+          <NavigationProperty Name="Tbl_ProductCategories" Relationship="Self.fk_products_category" FromRole="Tbl_Products" ToRole="Tbl_ProductCategories" />
+        </EntityType>
+        <EntityType Name="Tbl_Statistics">
+          <Key>
+            <PropertyRef Name="statistic_id" />
+          </Key>
+          <Property Name="statistic_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="type_id" Type="Int32" />
+          <Property Name="statistic_target" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="target_id" Type="Int32" />
+          <Property Name="time_period" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="start_date" Type="DateTime" Precision="0" />
+          <Property Name="end_date" Type="DateTime" Precision="0" />
+          <Property Name="metric_name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="value" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="last_updated" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Tbl_StatisticTypes" Relationship="Self.fk_statistics_type" FromRole="Tbl_Statistics" ToRole="Tbl_StatisticTypes" />
+        </EntityType>
+        <EntityType Name="Tbl_StatisticTypes">
+          <Key>
+            <PropertyRef Name="type_id" />
+          </Key>
+          <Property Name="type_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="type_name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Tbl_Statistics" Relationship="Self.fk_statistics_type" FromRole="Tbl_StatisticTypes" ToRole="Tbl_Statistics" />
+        </EntityType>
+        <EntityType Name="Tbl_UserRoles">
+          <Key>
+            <PropertyRef Name="role_id" />
+          </Key>
+          <Property Name="role_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="role_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Tbl_Users" Relationship="Self.fk_users_role" FromRole="Tbl_UserRoles" ToRole="Tbl_Users" />
+        </EntityType>
+        <EntityType Name="Tbl_Users">
+          <Key>
+            <PropertyRef Name="user_id" />
+          </Key>
+          <Property Name="user_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="username" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="role_id" Type="Int32" />
+          <Property Name="status" Type="Int32" />
+          <NavigationProperty Name="Tbl_Orders" Relationship="Self.fk_orders_user" FromRole="Tbl_Users" ToRole="Tbl_Orders" />
+          <NavigationProperty Name="Tbl_UserRoles" Relationship="Self.fk_users_role" FromRole="Tbl_Users" ToRole="Tbl_UserRoles" />
+        </EntityType>
+        <Association Name="fk_orders_customer">
+          <End Role="Tbl_Customers" Type="Self.Tbl_Customers" Multiplicity="0..1" />
+          <End Role="Tbl_Orders" Type="Self.Tbl_Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_Customers">
+              <PropertyRef Name="customer_id" />
+            </Principal>
+            <Dependent Role="Tbl_Orders">
+              <PropertyRef Name="customer_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_order_details_order">
+          <End Role="Tbl_Orders" Type="Self.Tbl_Orders" Multiplicity="0..1" />
+          <End Role="Tbl_OrderDetails" Type="Self.Tbl_OrderDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_Orders">
+              <PropertyRef Name="order_id" />
+            </Principal>
+            <Dependent Role="Tbl_OrderDetails">
+              <PropertyRef Name="order_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_order_details_product">
+          <End Role="Tbl_Products" Type="Self.Tbl_Products" Multiplicity="0..1" />
+          <End Role="Tbl_OrderDetails" Type="Self.Tbl_OrderDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_Products">
+              <PropertyRef Name="product_id" />
+            </Principal>
+            <Dependent Role="Tbl_OrderDetails">
+              <PropertyRef Name="product_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_orders_status">
+          <End Role="Tbl_OrderStatus" Type="Self.Tbl_OrderStatus" Multiplicity="0..1" />
+          <End Role="Tbl_Orders" Type="Self.Tbl_Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_OrderStatus">
+              <PropertyRef Name="status_id" />
+            </Principal>
+            <Dependent Role="Tbl_Orders">
+              <PropertyRef Name="status_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_orders_user">
+          <End Role="Tbl_Users" Type="Self.Tbl_Users" Multiplicity="0..1" />
+          <End Role="Tbl_Orders" Type="Self.Tbl_Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_Users">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="Tbl_Orders">
+              <PropertyRef Name="created_by" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_products_category">
+          <End Role="Tbl_ProductCategories" Type="Self.Tbl_ProductCategories" Multiplicity="0..1" />
+          <End Role="Tbl_Products" Type="Self.Tbl_Products" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_ProductCategories">
+              <PropertyRef Name="category_id" />
+            </Principal>
+            <Dependent Role="Tbl_Products">
+              <PropertyRef Name="category_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_statistics_type">
+          <End Role="Tbl_StatisticTypes" Type="Self.Tbl_StatisticTypes" Multiplicity="0..1" />
+          <End Role="Tbl_Statistics" Type="Self.Tbl_Statistics" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_StatisticTypes">
+              <PropertyRef Name="type_id" />
+            </Principal>
+            <Dependent Role="Tbl_Statistics">
+              <PropertyRef Name="type_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_users_role">
+          <End Role="Tbl_UserRoles" Type="Self.Tbl_UserRoles" Multiplicity="0..1" />
+          <End Role="Tbl_Users" Type="Self.Tbl_Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_UserRoles">
+              <PropertyRef Name="role_id" />
+            </Principal>
+            <Dependent Role="Tbl_Users">
+              <PropertyRef Name="role_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SaleCallCenterEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <EntitySet Name="Tbl_Customers" EntityType="Self.Tbl_Customers" />
+          <EntitySet Name="Tbl_OrderDetails" EntityType="Self.Tbl_OrderDetails" />
+          <EntitySet Name="Tbl_Orders" EntityType="Self.Tbl_Orders" />
+          <EntitySet Name="Tbl_OrderStatus" EntityType="Self.Tbl_OrderStatus" />
+          <EntitySet Name="Tbl_ProductCategories" EntityType="Self.Tbl_ProductCategories" />
+          <EntitySet Name="Tbl_Products" EntityType="Self.Tbl_Products" />
+          <EntitySet Name="Tbl_Statistics" EntityType="Self.Tbl_Statistics" />
+          <EntitySet Name="Tbl_StatisticTypes" EntityType="Self.Tbl_StatisticTypes" />
+          <EntitySet Name="Tbl_UserRoles" EntityType="Self.Tbl_UserRoles" />
+          <EntitySet Name="Tbl_Users" EntityType="Self.Tbl_Users" />
+          <AssociationSet Name="fk_orders_customer" Association="Self.fk_orders_customer">
+            <End Role="Tbl_Customers" EntitySet="Tbl_Customers" />
+            <End Role="Tbl_Orders" EntitySet="Tbl_Orders" />
+          </AssociationSet>
+          <AssociationSet Name="fk_order_details_order" Association="Self.fk_order_details_order">
+            <End Role="Tbl_Orders" EntitySet="Tbl_Orders" />
+            <End Role="Tbl_OrderDetails" EntitySet="Tbl_OrderDetails" />
+          </AssociationSet>
+          <AssociationSet Name="fk_order_details_product" Association="Self.fk_order_details_product">
+            <End Role="Tbl_Products" EntitySet="Tbl_Products" />
+            <End Role="Tbl_OrderDetails" EntitySet="Tbl_OrderDetails" />
+          </AssociationSet>
+          <AssociationSet Name="fk_orders_status" Association="Self.fk_orders_status">
+            <End Role="Tbl_OrderStatus" EntitySet="Tbl_OrderStatus" />
+            <End Role="Tbl_Orders" EntitySet="Tbl_Orders" />
+          </AssociationSet>
+          <AssociationSet Name="fk_orders_user" Association="Self.fk_orders_user">
+            <End Role="Tbl_Users" EntitySet="Tbl_Users" />
+            <End Role="Tbl_Orders" EntitySet="Tbl_Orders" />
+          </AssociationSet>
+          <AssociationSet Name="fk_products_category" Association="Self.fk_products_category">
+            <End Role="Tbl_ProductCategories" EntitySet="Tbl_ProductCategories" />
+            <End Role="Tbl_Products" EntitySet="Tbl_Products" />
+          </AssociationSet>
+          <AssociationSet Name="fk_statistics_type" Association="Self.fk_statistics_type">
+            <End Role="Tbl_StatisticTypes" EntitySet="Tbl_StatisticTypes" />
+            <End Role="Tbl_Statistics" EntitySet="Tbl_Statistics" />
+          </AssociationSet>
+          <AssociationSet Name="fk_users_role" Association="Self.fk_users_role">
+            <End Role="Tbl_UserRoles" EntitySet="Tbl_UserRoles" />
+            <End Role="Tbl_Users" EntitySet="Tbl_Users" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SaleCallCenterModelStoreContainer" CdmEntityContainer="SaleCallCenterEntities">
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="SaleCallCenterModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_Customers">
+            <EntityTypeMapping TypeName="SaleCallCenterModel.Tbl_Customers">
+              <MappingFragment StoreEntitySet="Tbl_Customers">
+                <ScalarProperty Name="customer_id" ColumnName="customer_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="needs" ColumnName="needs" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_OrderDetails">
+            <EntityTypeMapping TypeName="SaleCallCenterModel.Tbl_OrderDetails">
+              <MappingFragment StoreEntitySet="Tbl_OrderDetails">
+                <ScalarProperty Name="detail_id" ColumnName="detail_id" />
+                <ScalarProperty Name="order_id" ColumnName="order_id" />
+                <ScalarProperty Name="product_id" ColumnName="product_id" />
+                <ScalarProperty Name="quantity" ColumnName="quantity" />
+                <ScalarProperty Name="unit_price" ColumnName="unit_price" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_Orders">
+            <EntityTypeMapping TypeName="SaleCallCenterModel.Tbl_Orders">
+              <MappingFragment StoreEntitySet="Tbl_Orders">
+                <ScalarProperty Name="order_id" ColumnName="order_id" />
+                <ScalarProperty Name="customer_id" ColumnName="customer_id" />
+                <ScalarProperty Name="created_by" ColumnName="created_by" />
+                <ScalarProperty Name="status_id" ColumnName="status_id" />
+                <ScalarProperty Name="created_date" ColumnName="created_date" />
+                <ScalarProperty Name="total_amount" ColumnName="total_amount" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_OrderStatus">
+            <EntityTypeMapping TypeName="SaleCallCenterModel.Tbl_OrderStatus">
+              <MappingFragment StoreEntitySet="Tbl_OrderStatus">
+                <ScalarProperty Name="status_id" ColumnName="status_id" />
+                <ScalarProperty Name="status_name" ColumnName="status_name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_ProductCategories">
+            <EntityTypeMapping TypeName="SaleCallCenterModel.Tbl_ProductCategories">
+              <MappingFragment StoreEntitySet="Tbl_ProductCategories">
+                <ScalarProperty Name="category_id" ColumnName="category_id" />
+                <ScalarProperty Name="category_name" ColumnName="category_name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_Products">
+            <EntityTypeMapping TypeName="SaleCallCenterModel.Tbl_Products">
+              <MappingFragment StoreEntitySet="Tbl_Products">
+                <ScalarProperty Name="product_id" ColumnName="product_id" />
+                <ScalarProperty Name="product_name" ColumnName="product_name" />
+                <ScalarProperty Name="category_id" ColumnName="category_id" />
+                <ScalarProperty Name="stock" ColumnName="stock" />
+                <ScalarProperty Name="unit_price" ColumnName="unit_price" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_Statistics">
+            <EntityTypeMapping TypeName="SaleCallCenterModel.Tbl_Statistics">
+              <MappingFragment StoreEntitySet="Tbl_Statistics">
+                <ScalarProperty Name="statistic_id" ColumnName="statistic_id" />
+                <ScalarProperty Name="type_id" ColumnName="type_id" />
+                <ScalarProperty Name="statistic_target" ColumnName="statistic_target" />
+                <ScalarProperty Name="target_id" ColumnName="target_id" />
+                <ScalarProperty Name="time_period" ColumnName="time_period" />
+                <ScalarProperty Name="start_date" ColumnName="start_date" />
+                <ScalarProperty Name="end_date" ColumnName="end_date" />
+                <ScalarProperty Name="metric_name" ColumnName="metric_name" />
+                <ScalarProperty Name="value" ColumnName="value" />
+                <ScalarProperty Name="last_updated" ColumnName="last_updated" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_StatisticTypes">
+            <EntityTypeMapping TypeName="SaleCallCenterModel.Tbl_StatisticTypes">
+              <MappingFragment StoreEntitySet="Tbl_StatisticTypes">
+                <ScalarProperty Name="type_id" ColumnName="type_id" />
+                <ScalarProperty Name="type_name" ColumnName="type_name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_UserRoles">
+            <EntityTypeMapping TypeName="SaleCallCenterModel.Tbl_UserRoles">
+              <MappingFragment StoreEntitySet="Tbl_UserRoles">
+                <ScalarProperty Name="role_id" ColumnName="role_id" />
+                <ScalarProperty Name="role_name" ColumnName="role_name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_Users">
+            <EntityTypeMapping TypeName="SaleCallCenterModel.Tbl_Users">
+              <MappingFragment StoreEntitySet="Tbl_Users">
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="role_id" ColumnName="role_id" />
+                <ScalarProperty Name="status" ColumnName="status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

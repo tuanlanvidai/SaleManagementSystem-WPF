@@ -25,15 +25,12 @@ namespace SaleManagementSystem.Model.Entities
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<Tbl_Customers> Tbl_Customers { get; set; }
         public virtual DbSet<Tbl_OrderDetails> Tbl_OrderDetails { get; set; }
         public virtual DbSet<Tbl_Orders> Tbl_Orders { get; set; }
         public virtual DbSet<Tbl_OrderStatus> Tbl_OrderStatus { get; set; }
         public virtual DbSet<Tbl_ProductCategories> Tbl_ProductCategories { get; set; }
         public virtual DbSet<Tbl_Products> Tbl_Products { get; set; }
-        public virtual DbSet<Tbl_Statistics> Tbl_Statistics { get; set; }
-        public virtual DbSet<Tbl_StatisticTypes> Tbl_StatisticTypes { get; set; }
         public virtual DbSet<Tbl_UserRoles> Tbl_UserRoles { get; set; }
         public virtual DbSet<Tbl_Users> Tbl_Users { get; set; }
     }

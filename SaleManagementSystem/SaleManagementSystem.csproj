@@ -97,9 +97,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>SaleCallCenterModel.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Model\Entities\sysdiagram.cs">
-      <DependentUpon>SaleCallCenterModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Model\Entities\Tbl_Customers.cs">
       <DependentUpon>SaleCallCenterModel.tt</DependentUpon>
     </Compile>
@@ -118,19 +115,15 @@
     <Compile Include="Model\Entities\Tbl_Products.cs">
       <DependentUpon>SaleCallCenterModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\Entities\Tbl_Statistics.cs">
-      <DependentUpon>SaleCallCenterModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\Entities\Tbl_StatisticTypes.cs">
-      <DependentUpon>SaleCallCenterModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Model\Entities\Tbl_UserRoles.cs">
       <DependentUpon>SaleCallCenterModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\Entities\Tbl_Users.cs">
       <DependentUpon>SaleCallCenterModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\ModelView\StatisticView.cs" />
+    <Compile Include="Model\ModelView\OrderView.cs" />
+    <Compile Include="Model\ModelView\ProductOrderView.cs" />
+    <Compile Include="Model\ModelView\ProductView.cs" />
     <Compile Include="Model\Reponsitories\DatabaseConnect.cs" />
     <Compile Include="Model\Reponsitories\StatisticRepository.cs" />
     <Compile Include="Model\View\Control\Products.xaml.cs">
@@ -206,6 +199,10 @@
     <Resource Include="Image\UserIcon.png" />
   </ItemGroup>
   <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
     <Content Include="Model\Entities\SaleCallCenterModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>SaleCallCenterModel.edmx</DependentUpon>
@@ -216,9 +213,6 @@
       <DependentUpon>SaleCallCenterModel.edmx</DependentUpon>
       <LastGenOutput>SaleCallCenterModel.cs</LastGenOutput>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

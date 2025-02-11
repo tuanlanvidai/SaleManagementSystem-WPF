@@ -4,26 +4,22 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="474c8f9224da4a62aa98251903810302" Name="Diagram1">
-        <EntityTypeShape EntityType="SaleDbEntities.sysdiagram" Width="1.5" PointX="9.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="SaleDbEntities.Tbl_Customers" Width="1.5" PointX="3" PointY="5.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="SaleDbEntities.Tbl_OrderDetails" Width="1.5" PointX="7.5" PointY="1.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="SaleDbEntities.Tbl_Orders" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="SaleDbEntities.Tbl_OrderStatus" Width="1.5" PointX="3" PointY="8.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="SaleDbEntities.Tbl_ProductCategories" Width="1.5" PointX="3" PointY="11.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="SaleDbEntities.Tbl_Products" Width="1.5" PointX="5.25" PointY="11.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="SaleDbEntities.Tbl_Statistics" Width="1.5" PointX="8" PointY="5" IsExpanded="true" />
-        <EntityTypeShape EntityType="SaleDbEntities.Tbl_StatisticTypes" Width="1.5" PointX="5.75" PointY="5.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="SaleDbEntities.Tbl_UserRoles" Width="1.5" PointX="0.75" PointY="1.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="SaleDbEntities.Tbl_Users" Width="1.5" PointX="3" PointY="1.25" IsExpanded="true" />
-        <AssociationConnector Association="SaleDbEntities.fk_orders_customer" ManuallyRouted="false" />
-        <AssociationConnector Association="SaleDbEntities.fk_order_details_order" ManuallyRouted="false" />
-        <AssociationConnector Association="SaleDbEntities.fk_order_details_product" ManuallyRouted="false" />
-        <AssociationConnector Association="SaleDbEntities.fk_orders_status" ManuallyRouted="false" />
-        <AssociationConnector Association="SaleDbEntities.fk_orders_user" ManuallyRouted="false" />
-        <AssociationConnector Association="SaleDbEntities.fk_products_category" ManuallyRouted="false" />
-        <AssociationConnector Association="SaleDbEntities.fk_statistics_type" ManuallyRouted="false" />
-        <AssociationConnector Association="SaleDbEntities.fk_users_role" ManuallyRouted="false" />
+      <Diagram DiagramId="619a157857a64c13887da13c4baf9660" Name="Diagram1">
+        <EntityTypeShape EntityType="SaleCallCenterModel.Tbl_Customers" Width="1.5" PointX="3" PointY="5.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SaleCallCenterModel.Tbl_OrderDetails" Width="1.5" PointX="7.5" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SaleCallCenterModel.Tbl_Orders" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="SaleCallCenterModel.Tbl_OrderStatus" Width="1.5" PointX="3" PointY="8.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SaleCallCenterModel.Tbl_ProductCategories" Width="1.5" PointX="3" PointY="11.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SaleCallCenterModel.Tbl_Products" Width="1.5" PointX="5.25" PointY="11.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SaleCallCenterModel.Tbl_UserRoles" Width="1.5" PointX="0.75" PointY="1.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SaleCallCenterModel.Tbl_Users" Width="1.5" PointX="3" PointY="1.25" IsExpanded="true" />
+        <AssociationConnector Association="SaleCallCenterModel.fk_orders_customer" ManuallyRouted="false" />
+        <AssociationConnector Association="SaleCallCenterModel.fk_order_details_order" ManuallyRouted="false" />
+        <AssociationConnector Association="SaleCallCenterModel.fk_order_details_product" ManuallyRouted="false" />
+        <AssociationConnector Association="SaleCallCenterModel.fk_orders_status" ManuallyRouted="false" />
+        <AssociationConnector Association="SaleCallCenterModel.fk_orders_user" ManuallyRouted="false" />
+        <AssociationConnector Association="SaleCallCenterModel.fk_products_category" ManuallyRouted="false" />
+        <AssociationConnector Association="SaleCallCenterModel.fk_users_role" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

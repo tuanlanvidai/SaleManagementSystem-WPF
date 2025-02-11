@@ -3,12 +3,10 @@ using SaleManagementSystem.Model.ModelView;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace SaleManagementSystem.Model.Reponsitories
+namespace SaleManagementSystem.Model.Repositories
 {
-    internal sealed class StatisticRepository
+    public sealed class StatisticRepository
     {
         private static StatisticRepository _instance = null;
         private StatisticRepository() { }
@@ -25,58 +23,76 @@ namespace SaleManagementSystem.Model.Reponsitories
             }
         }
 
-        //Lấy toàn bộ thống kê
-        public HashSet<StatisticView> GetAll()
+        // 🔹 Lấy doanh thu theo khoảng thời gian
+        public decimal GetRevenueByDate(DateTime startDate, DateTime endDate)
         {
             using (var db = new DbEntities())
             {
-                return db.Tbl_Statistics
-                    .Select(d => StatisticView.ToStatisticView(d))
-                    .ToHashSet();
+                return db.Tbl_Orders
+                    .Where(o => o.status_id == 1 && o.created_date >= startDate && o.created_date <= endDate)
+                    .Sum(o => (decimal?)o.total_amount ?? 0m);
             }
         }
 
-        //Lấy danh sách loại thống kê từ database (DÙNG CHO COMBOBOX)
-        public List<string> GetStatisticTypes()
+        // 🔹 Lấy danh sách đơn hàng hoàn thành theo khoảng thời gian
+        public List<OrderView> GetCompletedOrdersByDate(DateTime startDate, DateTime endDate)
         {
             using (var db = new DbEntities())
             {
-                var types = db.Tbl_StatisticTypes.Select(t => t.type_name).ToList();
-
-                // 📌 Debug: In danh sách loại thống kê ra console
-                Console.WriteLine("Statistic Types Found: " + string.Join(", ", types));
-
-                return types;
-            }
-        }
-
-        // Lấy thống kê theo loại (Doanh thu, Sản phẩm, Nhân viên)
-        public HashSet<StatisticView> GetStatisticsByType(string typeName)
-        {
-            using (var db = new DbEntities())
-            {
-                int typeID = db.Tbl_StatisticTypes
-                    .Where(t => t.type_name == typeName)
-                    .Select(t => t.type_id)
-                    .FirstOrDefault();
-
-                var statistics = db.Tbl_Statistics
-                    .Where(d => d.type_id == typeID)
+                return db.Tbl_Orders
+                    .Where(o => o.status_id == 1 && o.created_date >= startDate && o.created_date <= endDate)
+                    .Select(o => new OrderView
+                    {
+                        OrderID = o.order_id,
+                        CustomerName = o.Tbl_Customers.name,
+                        CreatedBy = o.Tbl_Users.username,
+                        CreatedDate = o.created_date ?? DateTime.MinValue,
+                        TotalAmount = o.total_amount ?? 0m
+                    })
                     .ToList();
-
-                return statistics.Select(StatisticView.ToStatisticView).ToHashSet();
             }
         }
 
-        // Lấy thống kê theo thời gian (tháng, quý, năm)
-        public HashSet<StatisticView> GetStatisticsByTime(string timePeriod, DateTime startDate, DateTime endDate)
+        // 🔹 Lấy danh sách sản phẩm
+        public List<ProductView> GetProductList()
         {
             using (var db = new DbEntities())
             {
-                return db.Tbl_Statistics
-                    .Where(d => d.time_period == timePeriod && d.start_date >= startDate && d.end_date <= endDate)
-                    .Select(d => StatisticView.ToStatisticView(d))
-                    .ToHashSet();
+                return db.Tbl_Products
+                    .Select(p => new ProductView
+                    {
+                        ProductID = p.product_id,
+                        Name = p.product_name,
+                        Stock = p.stock ?? 0
+                    })
+                    .ToList();
+            }
+        }
+
+        // 🔹 Lấy đơn hàng theo sản phẩm
+        public List<ProductOrderView> GetOrdersByProduct(int productId, DateTime? startDate, DateTime? endDate)
+        {
+            using (var db = new DbEntities())
+            {
+                var query = db.Tbl_OrderDetails
+                    .Where(od => od.product_id == productId)
+                    .Select(od => new ProductOrderView
+                    {
+                        OrderID = (int)od.order_id,
+                        Quantity = od.quantity,
+                        UnitPrice = od.unit_price,
+                        TotalPrice = od.quantity * od.unit_price,
+                        CreatedDate = od.Tbl_Orders.created_date ?? DateTime.MinValue,
+                        CreatedBy = od.Tbl_Orders.Tbl_Users.username,
+                        CustomerName = od.Tbl_Orders.Tbl_Customers.name
+                    });
+
+                if (startDate.HasValue && endDate.HasValue)
+                {
+                    query = query.Where(o => o.CreatedDate >= startDate.Value && o.CreatedDate <= endDate.Value);
+                }
+
+                return query.ToList();
             }
         }
     }

@@ -1,5 +1,5 @@
-﻿using SaleManagementSystem.Model.Entities;
-using SaleManagementSystem.Model.Reponsitories;
+﻿using SaleManagementSystem.Model.Repositories;
+using SaleManagementSystem.Model.ModelView;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,44 +16,56 @@ namespace SaleManagementSystem.Model.View.Control
             LoadStatisticTypes();
         }
 
-        // Lấy danh sách loại thống kê từ database và đổ vào ComboBox
         private void LoadStatisticTypes()
         {
-            var statisticTypes = StatisticRepository.Instance.GetStatisticTypes();
-
-            if (statisticTypes == null || statisticTypes.Count == 0)
-            {
-                MessageBox.Show("No statistic types found in database!", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
-            }
-            else
-            {
-                cbxReportType.ItemsSource = statisticTypes;
-                cbxReportType.SelectedIndex = 0;
-                Console.WriteLine("ComboBox Data Set: " + string.Join(", ", statisticTypes));
-            }
+            cbxReportType.ItemsSource = new List<string> { "Revenue", "Product Sales" };
+            cbxReportType.SelectedIndex = 0;
         }
 
         private void cbxReportType_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (cbxReportType.SelectedValue is string reportType)
+            RevenuePanel.Visibility = Visibility.Collapsed;
+            ProductPanel.Visibility = Visibility.Collapsed;
+
+            switch (cbxReportType.SelectedValue.ToString())
             {
-                LoadStatistics(reportType);
+                case "Revenue":
+                    RevenuePanel.Visibility = Visibility.Visible;
+                    break;
+                case "Product Sales":
+                    ProductPanel.Visibility = Visibility.Visible;
+                    dgProductList.ItemsSource = StatisticRepository.Instance.GetProductList();
+                    break;
             }
         }
+
         private void btnLoadData_Click(object sender, RoutedEventArgs e)
         {
-            if (cbxReportType.SelectedValue is string reportType)
+            cbxReportType_SelectionChanged(null, null);
+        }
+
+        private void btnFilterRevenue_Click(object sender, RoutedEventArgs e)
+        {
+            DateTime startDate = dpStartDate.SelectedDate ?? DateTime.MinValue;
+            DateTime endDate = dpEndDate.SelectedDate ?? DateTime.MaxValue;
+            txtRevenueSummary.Text = $"Total Revenue: {StatisticRepository.Instance.GetRevenueByDate(startDate, endDate):C}";
+            dgRevenueOrders.ItemsSource = StatisticRepository.Instance.GetCompletedOrdersByDate(startDate, endDate);
+        }
+
+        private void txtSearchProduct_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            string keyword = txtSearchProduct.Text.ToLower();
+            dgProductList.ItemsSource = string.IsNullOrWhiteSpace(keyword)
+                ? StatisticRepository.Instance.GetProductList()
+                : StatisticRepository.Instance.GetProductList().Where(p => p.Name.ToLower().Contains(keyword)).ToList();
+        }
+
+        private void dgProductList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (dgProductList.SelectedItem is ProductView selectedProduct)
             {
-                LoadStatistics(reportType);
+                dgProductOrders.ItemsSource = StatisticRepository.Instance.GetOrdersByProduct(selectedProduct.ProductID, dpStartDate.SelectedDate, dpEndDate.SelectedDate);
             }
         }
-        private void LoadStatistics(string type)
-        {
-            var statistics = StatisticRepository.Instance.GetStatisticsByType(type).ToList();
-            dgStatistics.ItemsSource = statistics;
-
-            // Hiển thị tổng quan
-            txtSummary.Text = $"Summary: {type} statistics";
-        }
     }
-    }
+}

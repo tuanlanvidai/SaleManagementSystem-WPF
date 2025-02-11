@@ -97,6 +97,10 @@ namespace SaleManagementSystem
         {
             CC.Content = new Products();
         }
+        private void btn_Statistic_Click(object sender, RoutedEventArgs e)
+        {
+            CC.Content = new Statistic(); 
+        }
     }
     class Width1
     {

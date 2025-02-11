@@ -168,6 +168,15 @@
                                 Foreground="White"
                                 HorizontalAlignment="Left"
                                 Width="140"></Button>
+                    <Button x:Name="btn_Statistic" Content="Statistic" 
+                                Background="Transparent"
+                                BorderBrush="Transparent"
+                                FontSize="16"
+                                Margin="0,10,0,0"
+                                Foreground="White"
+                                HorizontalAlignment="Left"
+                                Width="140"
+                                Click="btn_Statistic_Click"/>
                     <Button Content="Setting" Background="Transparent" 
                             BorderBrush="Transparent"
                             FontSize="16"

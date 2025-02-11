@@ -9,16 +9,16 @@ namespace SaleManagementSystem.Model.ModelView
 {
     internal class StatisticView
     {
-        public int ID { get; set; } = 0;  // ID của thống kê
-        public string Type { get; set; } = "";  // Loại thống kê (Doanh thu, Sản phẩm, Nhân viên...)
-        public string Target { get; set; } = "";  // Đối tượng thống kê (Nhân viên, Sản phẩm...)
-        public int TargetID { get; set; } = 0;  // ID của đối tượng
-        public string TimePeriod { get; set; } = "";  // Thời gian (tháng, quý, năm)
+        public int ID { get; set; } = 0;
+        public string Type { get; set; } = "";
+        public string Target { get; set; } = "";
+        public int TargetID { get; set; } = 0;
+        public string TimePeriod { get; set; } = "";
         public DateTime StartDate { get; set; } = DateTime.MinValue;
         public DateTime EndDate { get; set; } = DateTime.MinValue;
-        public string Metric { get; set; } = "";  // Chỉ số thống kê
-        public decimal Value { get; set; } = 0;  // Giá trị thống kê
-        public DateTime LastUpdated { get; set; } = DateTime.Now; // Thời gian cập nhật cuối
+        public string Metric { get; set; } = "";
+        public decimal Value { get; set; } = 0;
+        public DateTime LastUpdated { get; set; } = DateTime.Now;
 
         // Chuyển đổi từ `Tbl_Statistics` sang `StatisticView`
         public static StatisticView ToStatisticView(Tbl_Statistics item)
@@ -38,7 +38,7 @@ namespace SaleManagementSystem.Model.ModelView
             };
         }
 
-        // Chuyển đổi từ `StatisticView` sang `Tbl_Statistics`
+        // Chuyển đổi từ StatisticView sang Tbl_Statistics
         public static Tbl_Statistics ToStatistic(StatisticView item)
         {
             return new Tbl_Statistics
@@ -59,28 +59,20 @@ namespace SaleManagementSystem.Model.ModelView
         // Hàm lấy ID loại thống kê từ tên loại
         private static int GetTypeID(string typeName)
         {
-            switch (typeName)
+            using (var db = new DbEntities())
             {
-                case "Revenue": return 1;
-                case "Product Sales": return 2;
-                case "Employee Sales": return 3;
-                case "Stock Report": return 4;
-                case "Total Orders": return 5;
-                default: return 0;
+                var type = db.Tbl_StatisticTypes.FirstOrDefault(t => t.type_name == typeName);
+                return type?.type_id ?? 0; // Nếu không tìm thấy, trả về 0
             }
         }
 
         // Hàm lấy tên loại thống kê từ ID
         private static string GetStatisticTypeName(int typeId)
         {
-            switch (typeId)
+            using (var db = new DbEntities())
             {
-                case 1: return "Revenue";
-                case 2: return "Product Sales";
-                case 3: return "Employee Sales";
-                case 4: return "Stock Report";
-                case 5: return "Total Orders";
-                default: return "Unknown";
+                var type = db.Tbl_StatisticTypes.FirstOrDefault(t => t.type_id == typeId);
+                return type?.type_name ?? "Unknown"; // Nếu không tìm thấy, trả về "Unknown"
             }
         }
     }

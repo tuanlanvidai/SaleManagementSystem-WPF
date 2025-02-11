@@ -82,53 +82,57 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Model\Entities\Model1.Context.cs">
+    <Compile Include="Model\Entities\SaleCallCenterModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Model1.Context.tt</DependentUpon>
+      <DependentUpon>SaleCallCenterModel.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\Entities\Model1.cs">
+    <Compile Include="Model\Entities\SaleCallCenterModel.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>SaleCallCenterModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\Entities\Model1.Designer.cs">
+    <Compile Include="Model\Entities\SaleCallCenterModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Model1.edmx</DependentUpon>
+      <DependentUpon>SaleCallCenterModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Entities\sysdiagram.cs">
+      <DependentUpon>SaleCallCenterModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\Entities\Tbl_Customers.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>SaleCallCenterModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\Entities\Tbl_OrderDetails.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>SaleCallCenterModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\Entities\Tbl_Orders.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>SaleCallCenterModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\Entities\Tbl_OrderStatus.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>SaleCallCenterModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\Entities\Tbl_ProductCategories.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>SaleCallCenterModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\Entities\Tbl_Products.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>SaleCallCenterModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\Entities\Tbl_Statistics.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>SaleCallCenterModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\Entities\Tbl_StatisticTypes.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>SaleCallCenterModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\Entities\Tbl_UserRoles.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>SaleCallCenterModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\Entities\Tbl_Users.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>SaleCallCenterModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\ModelView\StatisticView.cs" />
     <Compile Include="Model\Reponsitories\DatabaseConnect.cs" />
+    <Compile Include="Model\Reponsitories\StatisticRepository.cs" />
     <Compile Include="Model\View\Control\Products.xaml.cs">
       <DependentUpon>Products.xaml</DependentUpon>
     </Compile>
@@ -172,12 +176,12 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EntityDeploy Include="Model\Entities\Model1.edmx">
+    <EntityDeploy Include="Model\Entities\SaleCallCenterModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
+      <LastGenOutput>SaleCallCenterModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="Model\Entities\Model1.edmx.diagram">
-      <DependentUpon>Model1.edmx</DependentUpon>
+    <None Include="Model\Entities\SaleCallCenterModel.edmx.diagram">
+      <DependentUpon>SaleCallCenterModel.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -201,21 +205,20 @@
     <Resource Include="Image\sky1.jpg" />
     <Resource Include="Image\UserIcon.png" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+    <Content Include="Model\Entities\SaleCallCenterModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>SaleCallCenterModel.edmx</DependentUpon>
+      <LastGenOutput>SaleCallCenterModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Model\Entities\SaleCallCenterModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>SaleCallCenterModel.edmx</DependentUpon>
+      <LastGenOutput>SaleCallCenterModel.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Model\Entities\Model1.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Model1.edmx</DependentUpon>
-      <LastGenOutput>Model1.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="Model\Entities\Model1.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Model1.edmx</DependentUpon>
-      <LastGenOutput>Model1.cs</LastGenOutput>
-    </Content>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -4,7 +4,17 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="SaleCallCenterModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="SaleDbEntities.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
         <EntityType Name="Tbl_Customers">
           <Key>
             <PropertyRef Name="customer_id" />
@@ -196,7 +206,8 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="SaleCallCenterModelStoreContainer">
+        <EntityContainer Name="SaleDbEntitiesStoreContainer">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tbl_Customers" EntityType="Self.Tbl_Customers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tbl_OrderDetails" EntityType="Self.Tbl_OrderDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tbl_Orders" EntityType="Self.Tbl_Orders" Schema="dbo" store:Type="Tables" />
@@ -244,7 +255,17 @@
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="SaleCallCenterModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="SaleDbEntities" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
         <EntityType Name="Tbl_Customers">
           <Key>
             <PropertyRef Name="customer_id" />
@@ -452,7 +473,8 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="SaleCallCenterEntities1" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="DbEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
           <EntitySet Name="Tbl_Customers" EntityType="Self.Tbl_Customers" />
           <EntitySet Name="Tbl_OrderDetails" EntityType="Self.Tbl_OrderDetails" />
           <EntitySet Name="Tbl_Orders" EntityType="Self.Tbl_Orders" />
@@ -501,9 +523,20 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="SaleCallCenterModelStoreContainer" CdmEntityContainer="SaleCallCenterEntities1">
+        <EntityContainerMapping StorageEntityContainer="SaleDbEntitiesStoreContainer" CdmEntityContainer="DbEntities">
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="SaleDbEntities.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Tbl_Customers">
-            <EntityTypeMapping TypeName="SaleCallCenterModel.Tbl_Customers">
+            <EntityTypeMapping TypeName="SaleDbEntities.Tbl_Customers">
               <MappingFragment StoreEntitySet="Tbl_Customers">
                 <ScalarProperty Name="customer_id" ColumnName="customer_id" />
                 <ScalarProperty Name="name" ColumnName="name" />
@@ -515,7 +548,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Tbl_OrderDetails">
-            <EntityTypeMapping TypeName="SaleCallCenterModel.Tbl_OrderDetails">
+            <EntityTypeMapping TypeName="SaleDbEntities.Tbl_OrderDetails">
               <MappingFragment StoreEntitySet="Tbl_OrderDetails">
                 <ScalarProperty Name="detail_id" ColumnName="detail_id" />
                 <ScalarProperty Name="order_id" ColumnName="order_id" />
@@ -526,7 +559,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Tbl_Orders">
-            <EntityTypeMapping TypeName="SaleCallCenterModel.Tbl_Orders">
+            <EntityTypeMapping TypeName="SaleDbEntities.Tbl_Orders">
               <MappingFragment StoreEntitySet="Tbl_Orders">
                 <ScalarProperty Name="order_id" ColumnName="order_id" />
                 <ScalarProperty Name="customer_id" ColumnName="customer_id" />
@@ -538,7 +571,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Tbl_OrderStatus">
-            <EntityTypeMapping TypeName="SaleCallCenterModel.Tbl_OrderStatus">
+            <EntityTypeMapping TypeName="SaleDbEntities.Tbl_OrderStatus">
               <MappingFragment StoreEntitySet="Tbl_OrderStatus">
                 <ScalarProperty Name="status_id" ColumnName="status_id" />
                 <ScalarProperty Name="status_name" ColumnName="status_name" />
@@ -546,7 +579,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Tbl_ProductCategories">
-            <EntityTypeMapping TypeName="SaleCallCenterModel.Tbl_ProductCategories">
+            <EntityTypeMapping TypeName="SaleDbEntities.Tbl_ProductCategories">
               <MappingFragment StoreEntitySet="Tbl_ProductCategories">
                 <ScalarProperty Name="category_id" ColumnName="category_id" />
                 <ScalarProperty Name="category_name" ColumnName="category_name" />
@@ -554,7 +587,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Tbl_Products">
-            <EntityTypeMapping TypeName="SaleCallCenterModel.Tbl_Products">
+            <EntityTypeMapping TypeName="SaleDbEntities.Tbl_Products">
               <MappingFragment StoreEntitySet="Tbl_Products">
                 <ScalarProperty Name="product_id" ColumnName="product_id" />
                 <ScalarProperty Name="product_name" ColumnName="product_name" />
@@ -565,7 +598,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Tbl_Statistics">
-            <EntityTypeMapping TypeName="SaleCallCenterModel.Tbl_Statistics">
+            <EntityTypeMapping TypeName="SaleDbEntities.Tbl_Statistics">
               <MappingFragment StoreEntitySet="Tbl_Statistics">
                 <ScalarProperty Name="statistic_id" ColumnName="statistic_id" />
                 <ScalarProperty Name="type_id" ColumnName="type_id" />
@@ -581,7 +614,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Tbl_StatisticTypes">
-            <EntityTypeMapping TypeName="SaleCallCenterModel.Tbl_StatisticTypes">
+            <EntityTypeMapping TypeName="SaleDbEntities.Tbl_StatisticTypes">
               <MappingFragment StoreEntitySet="Tbl_StatisticTypes">
                 <ScalarProperty Name="type_id" ColumnName="type_id" />
                 <ScalarProperty Name="type_name" ColumnName="type_name" />
@@ -589,7 +622,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Tbl_UserRoles">
-            <EntityTypeMapping TypeName="SaleCallCenterModel.Tbl_UserRoles">
+            <EntityTypeMapping TypeName="SaleDbEntities.Tbl_UserRoles">
               <MappingFragment StoreEntitySet="Tbl_UserRoles">
                 <ScalarProperty Name="role_id" ColumnName="role_id" />
                 <ScalarProperty Name="role_name" ColumnName="role_name" />
@@ -597,7 +630,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Tbl_Users">
-            <EntityTypeMapping TypeName="SaleCallCenterModel.Tbl_Users">
+            <EntityTypeMapping TypeName="SaleDbEntities.Tbl_Users">
               <MappingFragment StoreEntitySet="Tbl_Users">
                 <ScalarProperty Name="user_id" ColumnName="user_id" />
                 <ScalarProperty Name="username" ColumnName="username" />

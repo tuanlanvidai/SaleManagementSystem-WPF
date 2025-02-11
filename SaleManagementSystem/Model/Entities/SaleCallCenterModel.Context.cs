@@ -13,10 +13,10 @@ namespace SaleManagementSystem.Model.Entities
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class SaleCallCenterEntities1 : DbContext
+    public partial class DbEntities : DbContext
     {
-        public SaleCallCenterEntities1()
-            : base("name=SaleCallCenterEntities1")
+        public DbEntities()
+            : base("name=DbEntities")
         {
         }
     
@@ -25,6 +25,7 @@ namespace SaleManagementSystem.Model.Entities
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<Tbl_Customers> Tbl_Customers { get; set; }
         public virtual DbSet<Tbl_OrderDetails> Tbl_OrderDetails { get; set; }
         public virtual DbSet<Tbl_Orders> Tbl_Orders { get; set; }

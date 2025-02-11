@@ -96,7 +96,7 @@
                     <ColumnDefinition x:Name="colMenu" Width="{Binding GridLength1}"/>
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <StackPanel Name="MenuContainer" Width="150" HorizontalAlignment="Left">
+                <StackPanel Name="MenuContainer" Width="{Binding GridLength1}" HorizontalAlignment="Left">
                     <StackPanel.Background>
                         <LinearGradientBrush StartPoint="0,1" EndPoint="1,0">
                             <GradientStop Color="#FF1B0D65" Offset="0.1"/>

@@ -23,18 +23,14 @@ namespace SaleManagementSystem
     /// </summary>
     public partial class MainWindow : Window
     {
-        public static int gridlength { get; set; }
+        private bool menuExpand;
         public MainWindow()
         {
             InitializeComponent();
-            Width1 _width = new Width1()
-            {
-                GridLength1 = 150,
-            };
-            this.DataContext = _width;
+            menuExpand = true;
+            ChangeMenuNav();
             CC.Content = new Dashboard();
         }
-        private bool menuExpand = true;
         private void btnMinimize_Click(object sender, RoutedEventArgs e)
         {
             WindowState = System.Windows.WindowState.Minimized;
@@ -58,32 +54,83 @@ namespace SaleManagementSystem
             if (WindowState == WindowState.Maximized)
             {
                 WindowState = WindowState.Normal;
+                ChangeMenuNav();
             }
             else
             {
                 WindowState = WindowState.Maximized;
+                ChangeMenuNav();
             }
         }
 
         private void btnMenu_Click(object sender, RoutedEventArgs e)
         {
+           ChangeMenuNav(ref menuExpand);
+           
+        }
+        private void ChangeMenuNav(ref bool menu)
+        {
             Width1 _width = new Width1();
-            if (!menuExpand)
+            if (WindowState == WindowState.Maximized)
             {
-                MenuContainer.Width += 120;
-                _width.GridLength1 = 150;
-                menuExpand = true;
+                if (menu)
+                {
+                    _width.GridLength1 = 250;
+                    menu = false;
 
+                }
+                else
+                {
+                    _width.GridLength1 = 30;
+                    menu = true;
+                }
             }
             else
             {
-                MenuContainer.Width -= 120;
-                _width.GridLength1 = 30;
-                menuExpand = false;
+                if (menu)
+                {
+                    _width.GridLength1 = 150;
+                    menu = false;
+
+                }
+                else
+                {
+                    _width.GridLength1 = 30;
+                    menu = true;
+                }
             }
             DataContext = _width;
         }
 
+        private void ChangeMenuNav()
+        {
+            Width1 _width = new Width1();
+            if (WindowState == WindowState.Maximized)
+            {
+                if (!menuExpand)
+                {
+                    _width.GridLength1 = 200;
+
+                }
+                else
+                {
+                    _width.GridLength1 = 30;
+                }
+            }
+            else
+            {
+                if (!menuExpand)
+                {
+                    _width.GridLength1 = 150;
+
+                }
+                else
+                {
+                    _width.GridLength1 = 30;
+                }
+            }
+            DataContext = _width;
+        }
         private void btnMenuPage_Click(object sender, RoutedEventArgs e)
         {
         }
